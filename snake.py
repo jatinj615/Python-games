@@ -31,6 +31,19 @@ smallfont = pygame.font.SysFont("comicsansms", 25)
 medfont = pygame.font.SysFont("comicsansms", 50)
 largefont = pygame.font.SysFont("comicsansms", 80)
 
+def score(score):
+	text = smallfont.render("Score: "+str(score), True, black)
+	gameDisplay.blit(text, [0,0])
+
+def randAppleGen():
+	randAppleX = round(random.randrange(0,display_width-block_size)/10.0)*10.0
+	randAppleY = round(random.randrange(0,display_height-block_size)/10.0)*10.0			
+	return randAppleX,randAppleY
+
+
+	
+
+
 def game_intro():
 
 	intro = True
@@ -47,7 +60,7 @@ def game_intro():
 				if event.key == pygame.K_q:
 					pygame.quit()
 					quit()
-					
+
 		gameDisplay.fill(white)
 		message_to_screen("Welcome to Snakes", green, -100, "large")
 		message_to_screen("The Objective of the game is to eat red apples", black, -30)
@@ -87,8 +100,7 @@ def gameLoop():
 	lead_y_change = 0
 	snakeList =[]
 	snakeLength = 1
-	randAppleX = round(random.randrange(0,display_width-block_size)/10.0)*10.0
-	randAppleY = round(random.randrange(0,display_height-block_size)/10.0)*10.0
+	randAppleX,randAppleY = randAppleGen()	
 
 	while not gameExit:
 
@@ -152,11 +164,13 @@ def gameLoop():
 				gameOver = True
 
 		snake(block_size, snakeList)
+
+		score((snakeLength-1)*10)
+
 		pygame.display.update()
 
 		if lead_x == randAppleX and lead_y == randAppleY:
-			randAppleX = round(random.randrange(0,display_width-block_size)/10.0)*10.0
-			randAppleY = round(random.randrange(0,display_height-block_size)/10.0)*10.0			
+			randAppleX,randAppleY = randAppleGen()	
 			snakeLength += 1
 
 
